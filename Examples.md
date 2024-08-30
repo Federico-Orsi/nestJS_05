@@ -1,4 +1,4 @@
-# Example 1adasdasdasd
+# Example 1 - borrado
 
 Supongamos que tenes una empresa que ofrece una tienda en línea de X tematica. 
 
