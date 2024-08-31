@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -17,9 +17,29 @@ export class BooksController {
     return this.booksService.findAll();
   }
 
+  @Get('populate')
+  populate_books() {
+    return this.booksService.populate_books();
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
+  findByBook(@Param('id') id: string) {
+    return this.booksService.findOne(+id); // el "+" convierte el string a numero!! Recordar que en las Solicitudes HTTP todos los datos nos llegan en formato string (incluidos los IDs)
+  }
+
+  @Get('author/:id')
+  findByAuthor(@Param('id') id: string) {
+    return this.booksService.findByAuthor(+id);
+  }
+
+  @Get('editorial/:id')
+  findByEditorial(@Param('id') id: string) {
+    return this.booksService.findByEditorial(+id);
+  }
+
+  @Get('genero/:id')
+  findByGenero(@Param('id') id: string) {
+    return this.booksService.findByGenero(+id);
   }
 
   @Patch(':id')
