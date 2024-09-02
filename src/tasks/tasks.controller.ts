@@ -7,11 +7,18 @@ import { TasksService } from './tasks.service';
 
 
 
+// const pool = new Pool ({
+//   host: "localhost",
+//   user: 'postgres',
+//   password: 'eldiego10',
+//   database: 'test',
+// })
 const pool = new Pool ({
-  host: "localhost",
-  user: 'postgres',
-  password: 'eldiego10',
-  database: 'test',
+  host: process.env.POSTGRES_HOST,
+  user: process.env.POSTGRES_USERNAME,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  port: parseInt(process.env.POSTGRES_PORT)
 })
 
 
@@ -135,7 +142,7 @@ helloTasks(@Query() query: any): string {
   const newProduct = new ProductoTS(body)
   console.log(newProduct);
   this.taskService.sayHello()
-  this.taskService.createProduct(newProduct)
+  //this.taskService.createProduct(newProduct)
 
   return newProduct
   }

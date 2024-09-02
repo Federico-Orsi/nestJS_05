@@ -1,7 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import mongoose from 'mongoose';
 import { AppModule } from './app.module';
 
 
@@ -17,8 +16,10 @@ async function bootstrap() {
   const PORT = configService.get('PORT')
 
   await app.listen(PORT || 3002);
-  await mongoose.connect(configService.get("MONGO_LOCAL"))
-  console.log(`App listening in PORT ${PORT}. Mongo connected OK!!`);
+  //await mongoose.connect(configService.get("MONGO_LOCAL"))
+  console.log(`App listening in PORT ${PORT}.`);
+  console.log(`App listening in PORT ${process.env.PORT}. Usando process.env directo`);
+
 
 }
 bootstrap();
