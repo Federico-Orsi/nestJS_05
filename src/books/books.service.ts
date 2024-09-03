@@ -95,29 +95,51 @@ async create(createBookDto: CreateBookDto) {
       // const allBooks = await pool.query('SELECT * FROM books')
       // console.log(allBooks.rows);
       // return (allBooks.rows)
-
-      const { autorId, editorialId, generoId } = queries;
+      //------------------------------------------------------------
+      //const { autorId, editorialId, generoId } = queries;
 
       // Construcción de la consulta utilizando COALESCE para manejar filtros dinámicos
-      const querySql = `
-        SELECT b.*
-        FROM Books b
-        LEFT JOIN Books_Generos bg ON b.id = bg.bookId
-        WHERE (COALESCE($1, b.autorId) = b.autorId)
-          AND (COALESCE($2, b.editorialId) = b.editorialId)
-          AND (COALESCE($3, bg.generoId) = bg.generoId)
-      `;
+      // const querySql = `
+      //   SELECT b.*
+      //   FROM Books b
+      //   LEFT JOIN Books_Generos bg ON b.id = bg.bookId
+      //   WHERE (COALESCE($1, b.autorId) = b.autorId)
+      //     AND (COALESCE($2, b.editorialId) = b.editorialId)
+      //     AND (COALESCE($3, bg.generoId) = bg.generoId)
+      // `;
 
       // Asignación de los valores de los parámetros de consulta o NULL si no existen
-      const values = [
-        autorId || null,
-        editorialId || null,
-        generoId || null,
-      ];
+      // const values = [
+      //   autorId || null,
+      //   editorialId || null,
+      //   generoId || null,
+      // ];
 
-      const result = await pool.query(querySql, values);
-      return result.rows;
+      // const result = await pool.query(querySql, values);
+      // return result.rows;
+//--------------------------------------------------------------------------
+const { autorId, editorialId, generoId } = queries;
 
+let querySql = 'SELECT b.* FROM Books b LEFT JOIN Books_Generos bg ON b.id = bg.bookId WHERE 1=1';
+  const values = [];
+
+  if (autorId) {
+    querySql += ' AND b.autorId = $1';
+    values.push(autorId);
+  }
+
+  if (editorialId) {
+    querySql += ' AND b.editorialId = $2';
+    values.push(editorialId);
+  }
+
+  if (generoId) {
+    querySql += ' AND bg.generoId = $3';
+    values.push(generoId);
+  }
+
+  const result = await pool.query(querySql, values);
+  return result.rows;
      } catch (error) { console.log(error) }
 }
 
