@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { Res } from '@nestjs/common/decorators/http';
+import { ApiCreatedResponse, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Pool } from "pg";
 import { ProductoTS } from './tasks.entity';
@@ -7,26 +8,17 @@ import { TasksService } from './tasks.service';
 
 
 
-// const pool = new Pool ({
-//   host: "localhost",
-//   user: 'postgres',
-//   password: 'eldiego10',
-//   database: 'test',
-// })
 const pool = new Pool ({
-  host: process.env.POSTGRES_HOST,
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
-  port: parseInt(process.env.POSTGRES_PORT)
+  host: "localhost",
+  user: 'postgres',
+  password: 'eldiego10',
+  database: 'test',
 })
-
-
 
 const x = "esta piola Nest ehhh"
 const x2 = 2
 
-
+@ApiTags('Tareas')
 @Controller('api/tareas')
 export class TasksController {
 
@@ -34,6 +26,7 @@ constructor(private taskService:TasksService){}
 
 
 @Get()
+@ApiResponse({ status: 201, description: 'The record has been successfully created.'})
 helloTasks(@Query() query: any): string {
 
   const {show, show2} = query
@@ -47,14 +40,16 @@ helloTasks(@Query() query: any): string {
   }
 
   @Get(':id/products/:cid')
-  showParams(@Param('id') id: number, @Param('cid') cid: string, @Res() res: Response ) {
+  @ApiResponse({ status: 201, description: 'Respuesta exitosa.'})
+  showParams(@Param('id') id: string, @Param('cid') cid: string, @Res() res: Response ) {
       console.log(cid);
 
-    res.send(id)
+    res.json(id)
   }
 
 
   @Get('beers')
+  @ApiOkResponse({description: 'Birras OK!!'})
   async showBeers() {
 
     try {
@@ -78,6 +73,7 @@ helloTasks(@Query() query: any): string {
   }
 
   @Get('dni')
+  @ApiCreatedResponse()
   async getDni() {
 
     try {
