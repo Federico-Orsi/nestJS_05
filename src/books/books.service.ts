@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Pool } from "pg";
 import { CreateBookDto } from './dto/create-book.dto';
+import { AllBooksQueryDto } from './dto/query.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 
 const pool = new Pool ({
@@ -88,12 +89,34 @@ async create(createBookDto: CreateBookDto) {
   }
 
 
-  async findAll() {
+  async findAll( queries: AllBooksQueryDto) {
 
     try {
-      const allBooks = await pool.query('SELECT * FROM books')
-      console.log(allBooks.rows);
-      return (allBooks.rows)
+      // const allBooks = await pool.query('SELECT * FROM books')
+      // console.log(allBooks.rows);
+      // return (allBooks.rows)
+
+      const { autorId, editorialId, generoId } = queries;
+
+      // Construcción de la consulta utilizando COALESCE para manejar filtros dinámicos
+      const querySql = `
+        SELECT b.*
+        FROM Books b
+        LEFT JOIN Books_Generos bg ON b.id = bg.bookId
+        WHERE (COALESCE($1, b.autorId) = b.autorId)
+          AND (COALESCE($2, b.editorialId) = b.editorialId)
+          AND (COALESCE($3, bg.generoId) = bg.generoId)
+      `;
+
+      // Asignación de los valores de los parámetros de consulta o NULL si no existen
+      const values = [
+        autorId || null,
+        editorialId || null,
+        generoId || null,
+      ];
+
+      const result = await pool.query(querySql, values);
+      return result.rows;
 
      } catch (error) { console.log(error) }
 }

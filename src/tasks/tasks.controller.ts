@@ -3,6 +3,7 @@ import { Res } from '@nestjs/common/decorators/http';
 import { ApiCreatedResponse, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Pool } from "pg";
+import { HelloTasksQueryDto } from 'src/tasks/dto/query.dto';
 import { ProductoTS } from './tasks.entity';
 import { TasksService } from './tasks.service';
 
@@ -27,7 +28,7 @@ constructor(private taskService:TasksService){}
 
 @Get()
 @ApiResponse({ status: 201, description: 'The record has been successfully created.'})
-helloTasks(@Query() query: any): string {
+helloTasks(@Query() query: HelloTasksQueryDto): string {
 
   const {show, show2} = query
 
