@@ -92,56 +92,62 @@ async create(createBookDto: CreateBookDto) {
   async findAll( queries: AllBooksQueryDto) {
 
     try {
-      // const allBooks = await pool.query('SELECT * FROM books')
-      // console.log(allBooks.rows);
-      // return (allBooks.rows)
-      //------------------------------------------------------------
-      //const { autorId, editorialId, generoId } = queries;
 
-      // Construcción de la consulta utilizando COALESCE para manejar filtros dinámicos
-      // const querySql = `
-      //   SELECT b.*
-      //   FROM Books b
-      //   LEFT JOIN Books_Generos bg ON b.id = bg.bookId
-      //   WHERE (COALESCE($1, b.autorId) = b.autorId)
-      //     AND (COALESCE($2, b.editorialId) = b.editorialId)
-      //     AND (COALESCE($3, bg.generoId) = bg.generoId)
-      // `;
+        const { autorId, editorialId, generoId } = queries;
 
-      // Asignación de los valores de los parámetros de consulta o NULL si no existen
-      // const values = [
-      //   autorId || null,
-      //   editorialId || null,
-      //   generoId || null,
-      // ];
+        let querySql = 'SELECT distinct b.* FROM Books b LEFT JOIN Books_Generos bg ON b.id = bg.bookId WHERE 1=1'
+        const values = [];
 
-      // const result = await pool.query(querySql, values);
-      // return result.rows;
-//--------------------------------------------------------------------------
-const { autorId, editorialId, generoId } = queries;
+        if (autorId) {
+          querySql += ' AND b.autorId = $1'
+          values.push(autorId);
+        }
 
-let querySql = 'SELECT b.* FROM Books b LEFT JOIN Books_Generos bg ON b.id = bg.bookId WHERE 1=1';
-  const values = [];
+        if (editorialId) {
+          querySql += ' AND b.editorialId = $2'
+          values.push(editorialId);
+        }
 
-  if (autorId) {
-    querySql += ' AND b.autorId = $1';
-    values.push(autorId);
-  }
+        if (generoId) {
+          querySql += ' AND bg.generoId = $3'
+          values.push(generoId);
+        }
+        console.log(autorId + "autorId print");
+        console.log(editorialId + "editorialId print");
+        console.log(generoId + "generoId print");
 
-  if (editorialId) {
-    querySql += ' AND b.editorialId = $2';
-    values.push(editorialId);
-  }
 
-  if (generoId) {
-    querySql += ' AND bg.generoId = $3';
-    values.push(generoId);
-  }
+        const result = await pool.query(querySql, values);
+        return result.rows;
 
-  const result = await pool.query(querySql, values);
-  return result.rows;
      } catch (error) { console.log(error) }
 }
+
+
+//-----------------------
+// otra posible alternativa para el findAll con filtros
+
+// const { autorId, editorialId, generoId } = queries;
+
+//       //Construcción de la consulta utilizando COALESCE para manejar filtros dinámicos
+//       const querySql = `
+//         SELECT b.*
+//         FROM Books b
+//         LEFT JOIN Books_Generos bg ON b.id = bg.bookId
+//         WHERE (COALESCE($1, b.autorId) = b.autorId)
+//           AND (COALESCE($2, b.editorialId) = b.editorialId)
+//           AND (COALESCE($3, bg.generoId) = bg.generoId)
+//       `;
+
+//       // Asignación de los valores de los parámetros de consulta o NULL si no existen
+//       const values = [
+//         autorId || null,
+//         editorialId || null,
+//         generoId || null,
+//       ];
+
+//       const result = await pool.query(querySql, values);
+//       return result.rows;
 
 
 async populate_books() {
