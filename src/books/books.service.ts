@@ -97,24 +97,30 @@ async create(createBookDto: CreateBookDto) {
 
         let querySql = 'SELECT distinct b.* FROM Books b LEFT JOIN Books_Generos bg ON b.id = bg.bookId WHERE 1=1'
         const values = [];
+        let paramIndex = 1;
 
         if (autorId) {
-          querySql += ' AND b.autorId = $1'
+          querySql += ` AND b.autorId = $${paramIndex++}`
           values.push(autorId);
         }
 
         if (editorialId) {
-          querySql += ' AND b.editorialId = $2'
+          querySql += ` AND b.editorialId = $${paramIndex++}`
           values.push(editorialId);
         }
 
         if (generoId) {
-          querySql += ' AND bg.generoId = $3'
+          querySql += ` AND bg.generoId = $${paramIndex++}`
           values.push(generoId);
         }
-        console.log(autorId + "autorId print");
-        console.log(editorialId + "editorialId print");
-        console.log(generoId + "generoId print");
+        console.log(autorId + " autorId print");
+        console.log(editorialId + " editorialId print");
+        console.log(generoId + " generoId print");
+
+        console.log(querySql + " querySql print");
+        console.log(values + " values print");
+
+
 
 
         const result = await pool.query(querySql, values);
