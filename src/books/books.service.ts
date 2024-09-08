@@ -4,12 +4,19 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { AllBooksQueryDto } from './dto/query.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 
+// const pool = new Pool ({
+//   host: process.env.POSTGRES_HOST,
+//   user: process.env.POSTGRES_USERNAME,
+//   password: process.env.POSTGRES_PASSWORD,
+//   database: process.env.POSTGRES_DB,
+//   port: parseInt(process.env.POSTGRES_PORT)
+// }) // esta es la conexion a la DB remota en Render!!
+
 const pool = new Pool ({
-  host: process.env.POSTGRES_HOST,
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
-  port: parseInt(process.env.POSTGRES_PORT)
+  host: "localhost",
+  user: 'postgres',
+  password: 'eldiego10',
+  database: 'nest.js',
 })
 
 

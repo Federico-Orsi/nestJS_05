@@ -1,12 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { UserRoles } from 'src/enums/user-roles.enum';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
-import { UpdateBookDto } from './dto/update-book.dto';
-import { ApiTags } from '@nestjs/swagger';
 import { AllBooksQueryDto } from './dto/query.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @ApiTags('Books')
 @Controller('books')
+@UseGuards(JwtAuthGuard,RolesGuard)
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
@@ -15,12 +20,20 @@ export class BooksController {
     return this.booksService.create(createBookDto);
   }
 
+  @Get('test')
+  @Roles(UserRoles.User)
+  test() {
+    return 'Probando los fucking roleGuards!!';
+  }
+
   @Get()
+  @Roles(UserRoles.Premium)
   findAll(@Query() query: AllBooksQueryDto) {
     return this.booksService.findAll(query);
   }
 
   @Get('populate')
+  @Roles(UserRoles.Admin)
   populate_books() {
     return this.booksService.populate_books();
   }

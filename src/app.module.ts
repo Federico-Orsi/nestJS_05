@@ -9,11 +9,14 @@ import { FirstNestMiddleware, SecondNestMiddleware } from './middlewares/firstMi
 import { TasksController } from './tasks/tasks.controller';
 import { TasksService } from './tasks/tasks.service';
 import { BooksModule } from './books/books.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true
-  }), BooksModule,
+  }), BooksModule, AuthModule, UsersModule, OrdersModule,
   
   // CorsModule.forRoot({
   //   origin: ['http://127.0.0.1:5173/'],
