@@ -21,7 +21,7 @@ const pool = new Pool ({
   database: 'nest.js',
 })
 
-const x = "Chupala Nest. Aguante feat-03"
+const x = "Vamooooo Nest carajoooo!!. Aguante main!! in your face fucking 4!!"
 const x2 = 2
 
 @ApiTags('Tareas')
