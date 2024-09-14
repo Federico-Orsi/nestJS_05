@@ -31,7 +31,10 @@ async function bootstrap() {
   //await mongoose.connect(configService.get("MONGO_LOCAL"))
   console.log(`App listening in PORT ${PORT}.`);
   console.log(`App listening in PORT ${process.env.PORT}. Usando process.env directo`);
+  console.log("agregado desde feat-02");
 
 
 }
 bootstrap();
+
+// console.log("agregado desde feat-02");

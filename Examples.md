@@ -1,8 +1,8 @@
 # Example 1 - borrado
 
-Supongamos que tenes una empresa que ofrece una tienda en línea de X tematica. 
+Supongamos que tenes una empresa que ofrece una tienda en línea de X tematica.
 
-Datos que maneja la tienda: 
+Datos que maneja la tienda:
 - Información del producto
 - Precios
 - Inventario.
@@ -26,7 +26,7 @@ La API REST podría tener endpoints para:
 Sos una Libreria, por ejemplo, Yenny, El ateneo, Cuspide, etc.
 
 Queres tener todos los libros en una base de datos guardando datos como los autores de los libros, editorales, generos, etc.
-Para luego poder obtener: 
+Para luego poder obtener:
 - listado de los libros
 - Poder buscar los libros por:
     - Autor
