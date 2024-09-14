@@ -30,7 +30,6 @@ export class TasksController {
 
 constructor(private taskService:TasksService){}
 
-
 @Get()
 @ApiResponse({ status: 201, description: 'The record has been successfully created.'})
 helloTasks(@Query() query: HelloTasksQueryDto): string {
