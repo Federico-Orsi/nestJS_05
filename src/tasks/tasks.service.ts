@@ -6,6 +6,7 @@ export class TasksService {
 
  sayHello(){
     console.log("fucking TS!!")
+    console.log("helloo PR!!")
 
  }
 
