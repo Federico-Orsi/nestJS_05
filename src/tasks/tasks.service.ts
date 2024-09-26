@@ -6,6 +6,7 @@ export class TasksService {
 
  sayHello(){
     console.log("fucking TS!!")
+    console.log("helloo PR!!")
 
  }
 
@@ -13,7 +14,7 @@ export class TasksService {
 //  return await productsModel.create(nuevoProducto)
 //  }
 
-
+git
  async getPeople(){
   try {
       //    const pool = new Pool ({
