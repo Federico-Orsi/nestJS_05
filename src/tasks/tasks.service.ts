@@ -14,7 +14,7 @@ export class TasksService {
 //  return await productsModel.create(nuevoProducto)
 //  }
 
-
+git
  async getPeople(){
   try {
       //    const pool = new Pool ({
